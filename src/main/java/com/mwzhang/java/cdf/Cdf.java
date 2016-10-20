@@ -57,7 +57,7 @@ public class Cdf {
                     System.err.println("ERR: file does not have enough columns");
                     return;
                 }
-                Double value = Double.valueOf(columns[col]);
+                Double value = Double.valueOf(columns[col - 1]);
                 cdf.addFloat(value);
             }
 
@@ -68,7 +68,7 @@ public class Cdf {
 
         System.out.println("Outputting CSV file...");
         try {
-            FileWriter fw = new FileWriter("output.csv");
+            FileWriter fw = new FileWriter("output-cdf.csv");
             BufferedWriter writer = new BufferedWriter(fw);
             for(Pair<Double,Double> pair : cdf.getCdfFloat()){
                 writer.write(String.format("%f,%f\n",pair.getValue0(),pair.getValue1()));
@@ -80,26 +80,6 @@ public class Cdf {
 
         System.out.println("Done.");
 
-        /*
-        Cdf cdf = new Cdf();
-        cdf.addInt(1);
-        cdf.addInt(2);
-        cdf.addInt(3);
-        cdf.addInt(4);
-        cdf.addInt(5);
-        System.out.println(cdf.getCdfInt().toString());
-
-        cdf.reset();
-        cdf.addFloat(0.1);
-        cdf.addFloat(0.2);
-        cdf.addFloat(0.3);
-        cdf.addFloat(0.3);
-        cdf.addFloat(0.3);
-        cdf.addFloat(0.3);
-        cdf.addFloat(0.4);
-        cdf.addFloat(0.5);
-        System.out.println(cdf.getCdfFloat().toString());
-        */
     }
 
     public void addInt(Integer x) {
