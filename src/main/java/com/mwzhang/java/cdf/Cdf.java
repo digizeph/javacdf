@@ -70,8 +70,18 @@ public class Cdf {
             e.printStackTrace();
         }
 
-        System.out.println("Done.");
+    }
 
+    public void writeGnuplotTemplate(){
+        System.out.println("Outputting Gnuplot file...");
+        try {
+            FileWriter fw = new FileWriter("output-cdf.gnuplot");
+            BufferedWriter writer = new BufferedWriter(fw);
+            writer.write(GnuplotUtil.gnuplotTemplate);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
@@ -87,6 +97,8 @@ public class Cdf {
         Cdf cdf = new Cdf();
         cdf.readCsv(filename, col);
         cdf.writeCsvResults();
+        cdf.writeGnuplotTemplate();
+        System.out.println("Done.");
     }
 
     public void addInt(Integer x) {
