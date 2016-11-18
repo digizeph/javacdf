@@ -32,6 +32,48 @@ public class Cdf {
         this.listIntegers = new TreeSet<>();
     }
 
+    public void readCsv (String filename, int col){
+
+        // READING
+        System.out.println("Reading CSV file...");
+        try {
+            FileReader fr = new FileReader(filename);
+            BufferedReader reader = new BufferedReader(fr);
+
+            String line;
+            while((line=reader.readLine())!=null){
+                String[] columns = line.split(",");
+                if(columns.length<col){
+                    System.err.println("ERR: file does not have enough columns");
+                    return;
+                }
+                Double value = Double.valueOf(columns[col - 1]);
+                addFloat(value);
+            }
+
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void writeCsvResults(){
+        System.out.println("Outputting CSV file...");
+        try {
+            FileWriter fw = new FileWriter("output-cdf.csv");
+            BufferedWriter writer = new BufferedWriter(fw);
+            for(Pair<Double,Double> pair : getCdfFloat()){
+                writer.write(String.format("%f,%f\n",pair.getValue0(),pair.getValue1()));
+            }
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Done.");
+
+    }
+
     public static void main(String[] args) {
 
         // take CSV file and column id as input.
@@ -43,43 +85,8 @@ public class Cdf {
         int col = Integer.valueOf(args[1]);
 
         Cdf cdf = new Cdf();
-
-        // READING
-        System.out.println("Reading CSV file...");
-        try {
-            FileReader fr = new FileReader(args[0]);
-            BufferedReader reader = new BufferedReader(fr);
-
-            String line;
-            while((line=reader.readLine())!=null){
-                String[] columns = line.split(",");
-                if(columns.length<col){
-                    System.err.println("ERR: file does not have enough columns");
-                    return;
-                }
-                Double value = Double.valueOf(columns[col - 1]);
-                cdf.addFloat(value);
-            }
-
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("Outputting CSV file...");
-        try {
-            FileWriter fw = new FileWriter("output-cdf.csv");
-            BufferedWriter writer = new BufferedWriter(fw);
-            for(Pair<Double,Double> pair : cdf.getCdfFloat()){
-                writer.write(String.format("%f,%f\n",pair.getValue0(),pair.getValue1()));
-            }
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("Done.");
-
+        cdf.readCsv(filename, col);
+        cdf.writeCsvResults();
     }
 
     public void addInt(Integer x) {
