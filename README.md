@@ -2,9 +2,17 @@
 
 A Java tool to generate Cumulative Distribution Function data from existing data files.
 
-## Usage
+# Usage
 
-See the release page for the most recent executable jar package and usage description.
+```
+java -jar javacdf.jar CSVFILENAME COLUMN
+```
+
+# Limitations
+
+* only supports CSV file
+* one column only
+* output contains all data points and their corresponding percentile
 
 ## Author
 
